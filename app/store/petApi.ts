@@ -4,6 +4,9 @@ interface Data {
     pets: Pet[]
 }
 
+interface Data2 {
+    pet: Pet
+}
 export interface Pet {
     id: number
     name: string
@@ -25,7 +28,10 @@ export const petApi = createApi({
         getPets: builder.query<Data, void>({
             query: () => 'pet',
         }),
+        getPet: builder.query<Data2, string>({
+            query: (id) => `pet/${id}`,
+        }),
     }),
 });
 
-export const { useGetPetsQuery } = petApi;
+export const { useGetPetsQuery, useGetPetQuery } = petApi;

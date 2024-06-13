@@ -15,6 +15,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+        <head>
+          <link
+            rel="icon"
+            href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐶</text></svg>"
+          />
+          <title>Adopt a Puppy</title>
+        </head>
         <body className={`${inter.className} flex items-center justify-center w-full h-full`}>
           <Provider store={store}>
             <div className='flex items-center justify-center w-full h-full'>

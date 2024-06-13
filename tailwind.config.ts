@@ -20,6 +20,7 @@ const config = {
     extend: {
       fontFamily: {
         'main': ['Pacifico', 'sans-serif'],
+        'oleo': ['Oleo Script', 'cursive'],
       },
       colors: {
         bg: '#FAFAFC',

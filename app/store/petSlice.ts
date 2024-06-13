@@ -4,7 +4,7 @@ import { Pet } from './petApi';
 export interface PetState {
     pets: Pet[];
     filteredPets: Pet[];
-    selectedPets: Pet[];
+    selectedPet: Pet | null;
     currentOpenedFilter: string;
     breedFilter: string[];
     ageFilter: string[];
@@ -15,7 +15,7 @@ export interface PetState {
 const initialState: PetState = {
     pets: [],
     filteredPets: [],
-    selectedPets: [],
+    selectedPet: null,
     currentOpenedFilter: '',
     breedFilter: [],
     ageFilter: [],
@@ -34,8 +34,8 @@ const petSlice = createSlice({
       setPets: (state, action: PayloadAction<Pet[]>) => {
         state.pets = action.payload;
       },
-      setSelectedPets: (state, action: PayloadAction<Pet[]>) => {
-        state.selectedPets = action.payload;
+      setSelectedPet: (state, action: PayloadAction<string>) => {
+        state.selectedPet = state.pets.find((pet) => pet.id.toString() === action.payload) ?? null;
       },
       setBreedFilter: (state, action: PayloadAction<string[]>) => {
         state.breedFilter = action.payload;
@@ -72,7 +72,7 @@ const petSlice = createSlice({
 export const { 
     setCurrentOpenedFilter, 
     setPets, 
-    setSelectedPets,
+    setSelectedPet,
     setBreedFilter,
     setAgeFilter,
     setSizeFilter,
