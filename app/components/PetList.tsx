@@ -28,7 +28,7 @@ const PetList = () => {
             dispatch(setPets(data.pets));
             dispatch(setFilteredPets());
         }
-    }, [data])
+    }, [data, dispatch])
 
     function handleClearFilters() {
         dispatch(resetFilters());

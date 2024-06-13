@@ -30,7 +30,7 @@ const Filter = ({ label, options }: FilterProps) => {
 
   useEffect(() => {
     dispatch(resetFilters());
-  }, [])
+  }, [dispatch])
 
   useEffect(() => {
     if (currentOpenedFilter === label) {

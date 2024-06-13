@@ -70,7 +70,7 @@ const PetProfile = ({ params }: { params: { id: string } }) => {
                         className='px-4 lg:px-8 py-2 text-sm lg:text-base text-main font-semibold outline outline-2 outline-main rounded-full hover:outline-offset-1 hover:outline-main duration-100'
                     >
                         <Link href='/pets'>
-                            Let's be friends 🐾
+                           {`Let's be friends 🐾`}
                         </Link>
                     </button>
             </div>

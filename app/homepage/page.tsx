@@ -1,6 +1,7 @@
 'use client'
 import Link from 'next/link'
 import NewPets from '../components/NewPets'
+import Image from 'next/image'
 
 const HomePage = () => {
     return (
@@ -18,7 +19,7 @@ const HomePage = () => {
                     </button>
                 </div>
                 <div className='flex-1'>
-                    <img src='/dogsmile2.jpeg' alt='dogsmile' className='rounded-2xl' />
+                    <Image src='/dogsmile2.jpeg' alt='dogsmile' className='rounded-2xl' />
                 </div>
             </div>
             <NewPets />
