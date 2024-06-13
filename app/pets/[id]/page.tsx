@@ -31,8 +31,6 @@ const PetProfile = ({ params }: { params: { id: string } }) => {
         },
     ]
 
-    const dispatch = useAppDispatch();
-
     return (
     <div className='flex flex-col gap-4 max-w-6xl items-center justify-start w-full h-full pt-28 pb-6 rounded-b-lg bg-bg px-6'>
         {data && 

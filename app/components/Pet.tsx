@@ -1,10 +1,18 @@
 import React from 'react'
 import { Pet as PetSchema } from '../store/petApi'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 
 const Pet = (pet : PetSchema) => {
+  const router = useRouter();
+
   return (
-    <div className='flex flex-col gap-2 items-center justify-start w-full rounded-lg pb-2 bg-white shadow-sm'>
+    <div 
+      onClick={() => {
+        router.push(`/pets/${pet.id}`)
+    }} 
+      className='flex flex-col gap-2 items-center justify-start w-full rounded-lg pb-2 bg-white shadow-sm cursor-pointer'
+    >
         <div className='h-56 w-56'>
             <img src={pet.image} alt='dog' className='rounded-t-lg object-cover h-56 w-56' />
         </div>
