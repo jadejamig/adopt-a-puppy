@@ -15,7 +15,9 @@ const NavigationBar = ({ children }: NavigationBarProps) => {
                 <Link href='/' className='text-main text-4xl font-main'>Adopt a Puppy</Link>
             </div>
             <div className='flex justify-center items-center h-6 w-6 bg-main rounded-full p-1'>
-                <SearchRoundedIcon className='h-5 w-5 text-white'/>
+                <Link href='/pets'>
+                    <SearchRoundedIcon className='h-5 w-5 text-white cursor-pointer'/>
+                </Link>
             </div>
             {children}
         </div>
