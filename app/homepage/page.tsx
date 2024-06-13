@@ -2,6 +2,8 @@
 import Link from 'next/link'
 import NewPets from '../components/NewPets'
 import Image from 'next/image'
+import GitHubIcon from '@mui/icons-material/GitHub';
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 
 const HomePage = () => {
     return (
@@ -23,6 +25,19 @@ const HomePage = () => {
                 </div>
             </div>
             <NewPets />
+            <div className='flex w-full bg-white py-10 px-6 rounded-lg items-center justify-center'>
+                <a 
+                    href='https://github.com/jadejamig/adopt-a-puppy'
+                    target='_blank'
+                    className='flex gap-2 font-semibold text-main'
+                >
+                    <GitHubIcon className='h-5 w-5 text-main' />
+                    View code in github
+                    
+                    <OpenInNewIcon className='h-5 w-5 text-main' />
+                    
+                </a>
+            </div>
         </div>  
     )
 }
