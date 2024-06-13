@@ -18,8 +18,8 @@ const HomePage = () => {
                         </Link>
                     </button>
                 </div>
-                <div className='flex-1'>
-                    <Image src='/dogsmile2.jpeg' alt='dogsmile' className='rounded-2xl' />
+                <div className=''>
+                    <img src='/dogsmile2.jpeg' alt='dogsmile' className='rounded-2xl' />
                 </div>
             </div>
             <NewPets />

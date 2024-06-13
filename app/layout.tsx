@@ -5,6 +5,7 @@ import "./globals.css";
 import NavigationBar from "./components/NavigationBar";
 import { store } from './store';
 import { Provider } from 'react-redux';
+import { Toaster } from 'sonner'
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,6 +23,7 @@ export default function RootLayout({
           />
           <title>Adopt a Puppy</title>
         </head>
+        <Toaster position="top-center" richColors />
         <body className={`${inter.className} flex items-center justify-center w-full h-full`}>
           <Provider store={store}>
             <div className='flex items-center justify-center w-full h-full'>

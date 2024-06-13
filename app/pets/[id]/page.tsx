@@ -1,15 +1,16 @@
 'use client'
-import React, { useEffect } from 'react'
-import Image from "next/image"
-import { AspectRatio } from "@/components/ui/aspect-ratio"
-import { useAppSelector, useAppDispatch } from "../../store/hooks";
-import { RootState } from '../../store/index';
-import { setSelectedPet } from "../../store/petSlice";
+import { AspectRatio } from "@/components/ui/aspect-ratio";
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import Image from "next/image";
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useGetPetQuery } from '../../../app/store/petApi';
-import Link from 'next/link'
+import { useAppDispatch } from "../../store/hooks";
+import { toast } from 'sonner'
 
 const PetProfile = ({ params }: { params: { id: string } }) => {
     const {data, isError, isLoading} = useGetPetQuery(params.id);
+    const router = useRouter();
 
     const stats = [
         {
@@ -34,6 +35,21 @@ const PetProfile = ({ params }: { params: { id: string } }) => {
 
     return (
     <div className='flex flex-col gap-4 max-w-6xl items-center justify-start w-full h-full pt-28 pb-6 rounded-b-lg bg-bg px-6'>
+        {data && 
+            <div className='flex justify-start items-center w-full' onClick={() => router.back()}>
+                <ArrowBackIosIcon className='h-4 w-4 text-main cursor-pointer' />
+                <p className='text-main text-sm cursor-pointer'>Back to Pets</p>
+            </div>
+        }
+        {isLoading && 
+            <div className='flex flex-col items-center justify-center w-full h-full pt-28'>
+                <div className='flex justify-center items-center w-full h-full'>
+                    <div className='flex justify-center items-center w-full h-full'>
+                        <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-main"></div>
+                    </div>
+                </div>
+            </div>
+        }
         {data && (
         <div className='flex flex-col md:flex-row w-full gap-4'>
             <div className="flex-1 flex justify-center items-center p-10 md:p-0 w-full md:w-[400px] shadow-sm">
@@ -69,9 +85,17 @@ const PetProfile = ({ params }: { params: { id: string } }) => {
                         type='button'
                         className='px-4 lg:px-8 py-2 text-sm lg:text-base text-main font-semibold outline outline-2 outline-main rounded-full hover:outline-offset-1 hover:outline-main duration-100'
                     >
-                        <Link href='/pets'>
+                        <button
+                            onClick={() => {
+                                toast.success(`You and ${data.pet.name} are now best friends!`, {
+                                    description: `Thank you for adopting ${data.pet.name}, take good care of ${data.pet.gender === 'Male' ? 'him' : 'her'}!`,
+                                    duration: 5000,
+                                    icon: <div className='h-10 w-10'>🐶</div>,
+                                })
+                            }}
+                        >
                            {`Let's be friends 🐾`}
-                        </Link>
+                        </button>
                     </button>
             </div>
         </div>

@@ -1,12 +1,8 @@
 'use client'
-import React from 'react'
-import { Pet } from '../store/petApi'
-import Image from "next/image"
 import { AspectRatio } from "@/components/ui/aspect-ratio"
+import Image from "next/image"
 import { useRouter } from 'next/navigation'
-import { useAppDispatch } from "../store/hooks";
-import { setSelectedPet } from "../store/petSlice";
-
+import { Pet } from '../store/petApi'
 
 const Petv2 = (pet : Pet) => {
     const router = useRouter();
