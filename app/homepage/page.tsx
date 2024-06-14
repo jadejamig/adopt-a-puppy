@@ -21,7 +21,7 @@ const HomePage = () => {
                     </button>
                 </div>
                 <div className=''>
-                    <img src='/dogsmile2.jpeg' alt='dogsmile' className='rounded-2xl' />
+                    <img src='/dogsmile2.jpeg' alt='dogsmile' className='rounded-2xl shadow-md' />
                 </div>
             </div>
             <NewPets />

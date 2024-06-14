@@ -1,7 +1,7 @@
 'use client'
 
-import { Skeleton } from "@/components/ui/skeleton";
-import { useEffect } from "react";
+// import { Skeleton } from "@/components/ui/skeleton";
+import { useEffect, useState } from "react";
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { RootState } from '../store/index';
@@ -9,8 +9,14 @@ import { useGetPetsQuery } from '../store/petApi';
 import { resetFilters, setFilteredPets, setPets } from "../store/petSlice";
 import Filter from "./Filter";
 import Petv2 from "./Petv2";
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
+import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
+import { setInputFilter } from "../store/petSlice";
 
 const PetList = () => {
+    const [input, setInput] = useState('');
+
     const {data, isError, isLoading} = useGetPetsQuery();
     
     const dummyBreeds = {label: 'Breed', options: ['Golden Retriever', 'Bull Terrier', 'Poodle', 'Border Collie', 'Beagle', 'Chihuahua', 'Labrador', 'Pug', 'German Shepherd']}
@@ -22,6 +28,11 @@ const PetList = () => {
     const dispatch = useAppDispatch();
 
     const { filteredPets } = useAppSelector((state: RootState) => state.petSlice);
+
+    useEffect(() => {
+        dispatch(setInputFilter(input));
+        dispatch(setFilteredPets());
+    }, [dispatch, input])
 
     useEffect(() => {
         if (data) {
@@ -38,6 +49,21 @@ const PetList = () => {
     return (
     <div className='flex flex-col md:flex-row items-start justify-center w-full h-full px-6 pt-6 pb-10 gap-6'>
         <div className='flex md:flex-[0.3] flex-col gap-4 w-full h-full'>
+            <div className="flex justify-between items-center w-full rounded-lg bg-white shadow-md ">
+                <div className="flex justify-center items-center w-full">
+                    <input 
+                        value={input}
+                        onChange={(e) => setInput(e.target.value)}
+                        type="text" 
+                        placeholder="Search for a pet" 
+                        className="p-4 rounded-lg focus:outline-none active:outline-none"/>
+                </div>
+                
+                <div className="w-full h-full justify-center items-center text-right pr-4">
+                    <SearchRoundedIcon className='h-7 w-7 text-main cursor-pointer' />
+                </div>
+                
+            </div>
             {filters.map((filter) => (
                 <div key={filter.label} className="flex flex-col w-full">
                     <Filter {...filter} />
@@ -58,8 +84,14 @@ const PetList = () => {
         </div>
         {isLoading && 
             <div className="flex md:flex-[0.7] w-full h-full ">
-                <div className='flex flex-row gap-6 w-full'>
-                    <Skeleton className='h-[250px] w-full rounded-lg' />
+                <div className='grid grid-cols-2 min-[1100px]:grid-cols-3 gap-4 w-full h-full'>
+                    {
+                        Array.from({length: 10}).map((_, i) => (
+                            <div key={i} className="flex justify-center items-start rounded-lg">
+                                <Skeleton width={240} height={300}/>
+                            </div>
+                        ))
+                    }
                 </div>
             </div>
         }

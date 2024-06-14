@@ -10,6 +10,7 @@ export interface PetState {
     ageFilter: string[];
     sizeFilter: string[];
     genderFilter: string[];
+    inputFilter: string;
 }
 
 const initialState: PetState = {
@@ -21,8 +22,35 @@ const initialState: PetState = {
     ageFilter: [],
     sizeFilter: [],
     genderFilter: [],
+    inputFilter: '',
 };
 
+
+// function filterObjectsByString(pets: Pet[], search: string) {
+//   return pets.filter(pet => {
+//       // Check all properties dynamically
+//       for (const key in pet) {
+//           if (pet.hasOwnProperty(key) && typeof pet[key] === 'string') {
+//               if (pet[key].toLowerCase().includes(search.toLowerCase())) {
+//                   return true;
+//               }
+//           }
+//       }
+//       return false;
+//   });
+// }
+
+export function filterPetsByString(pets: Pet[], search: string) {
+  return pets.filter(pet => {
+      // Check all properties dynamically
+      Object.entries(pet).forEach(([_, value]) => {
+          if (typeof value === 'string' && value.toLowerCase().includes(search.toLowerCase())) {
+              return true;
+          }
+        })
+      return false;
+  });
+}
 
 const petSlice = createSlice({
     name: 'petSlice',
@@ -50,7 +78,7 @@ const petSlice = createSlice({
         state.genderFilter = action.payload;
       },
       setFilteredPets: (state) => {
-        state.filteredPets = state.pets.filter((pet) => {
+        const initialFilteredPets = state.pets.filter((pet) => {
           return (
             (state.breedFilter.length === 0 || state.breedFilter.includes(pet.breed)) &&
             (state.ageFilter.length === 0 || state.ageFilter.includes(pet.ageLabel)) &&
@@ -58,6 +86,31 @@ const petSlice = createSlice({
             (state.genderFilter.length === 0 || state.genderFilter.includes(pet.gender))
           );
         });
+        console.log(initialFilteredPets)
+        console.log(state.inputFilter)
+
+        if (state.inputFilter === '') {
+          state.filteredPets = initialFilteredPets
+          return
+        }
+
+        state.filteredPets = initialFilteredPets.filter(pet => {
+          var match = false;
+          // Check all properties dynamically
+          Object.entries(pet).forEach(([key, value]) => {
+              if (match)
+                return
+              if (typeof value === 'string' && value.toLowerCase().includes(state.inputFilter.toLowerCase())) {
+                match = true
+              }
+          })
+          
+          if (match)
+            return true
+
+          return false
+        });
+        console.log(state.filteredPets)
       },
       resetFilters: (state) => {
         state.breedFilter = [];
@@ -65,6 +118,10 @@ const petSlice = createSlice({
         state.sizeFilter = [];
         state.genderFilter = [];
         state.currentOpenedFilter = '';
+        state.inputFilter = '';
+      },
+      setInputFilter: (state, action: PayloadAction<string>) => {
+        state.inputFilter = action.payload;
       },
     },
 });
@@ -79,6 +136,7 @@ export const {
     setGenderFilter,
     resetFilters,
     setFilteredPets,
+    setInputFilter,
 } = petSlice.actions;
 
 export default petSlice.reducer;
