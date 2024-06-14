@@ -121,7 +121,7 @@ const PetProfile = ({ params }: { params: { id: string } }) => {
                             <DialogHeader>
                             <DialogTitle>Adopting {data.pet.name}</DialogTitle>
                             <DialogDescription>
-                                Make changes to your profile here. Click save when you're done.
+                                {`Please note that we will be doing a home visit to make sure that ${data.pet.name} is in good hands.`}
                             </DialogDescription>
                             </DialogHeader>
                             <div className="grid gap-4 py-4">

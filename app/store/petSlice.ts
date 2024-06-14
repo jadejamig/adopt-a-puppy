@@ -11,6 +11,7 @@ export interface PetState {
     sizeFilter: string[];
     genderFilter: string[];
     inputFilter: string;
+    currentUserType: 'admin' | 'user';
 }
 
 const initialState: PetState = {
@@ -23,22 +24,8 @@ const initialState: PetState = {
     sizeFilter: [],
     genderFilter: [],
     inputFilter: '',
+    currentUserType: 'user',
 };
-
-
-// function filterObjectsByString(pets: Pet[], search: string) {
-//   return pets.filter(pet => {
-//       // Check all properties dynamically
-//       for (const key in pet) {
-//           if (pet.hasOwnProperty(key) && typeof pet[key] === 'string') {
-//               if (pet[key].toLowerCase().includes(search.toLowerCase())) {
-//                   return true;
-//               }
-//           }
-//       }
-//       return false;
-//   });
-// }
 
 export function filterPetsByString(pets: Pet[], search: string) {
   return pets.filter(pet => {
@@ -123,6 +110,9 @@ const petSlice = createSlice({
       setInputFilter: (state, action: PayloadAction<string>) => {
         state.inputFilter = action.payload;
       },
+      setCurrentUserType: (state, action: PayloadAction<'admin' | 'user'>) => {
+        state.currentUserType = action.payload;
+      },
     },
 });
 
@@ -137,6 +127,7 @@ export const {
     resetFilters,
     setFilteredPets,
     setInputFilter,
+    setCurrentUserType,
 } = petSlice.actions;
 
 export default petSlice.reducer;

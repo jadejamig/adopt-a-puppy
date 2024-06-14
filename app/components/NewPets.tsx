@@ -6,7 +6,7 @@ import Pet from './Pet';
 const NewPets = () => {
     const {data, isError, isLoading} = useGetPetsQuery();
 return (
-    <div className='bg-bg flex flex-col w-full px-6 md:p-10 gap-4'>
+    <div className='flex flex-col w-full p-6 md:p-8 gap-6 md:gap-8'>
         <div className='flex justify-start items-center w-full'>  
             <h1 className='text-zinc-800 text-xl font-semibold'>New Pets</h1>
         </div>

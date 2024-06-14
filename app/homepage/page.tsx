@@ -7,8 +7,8 @@ import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 
 const HomePage = () => {
     return (
-        <div className='flex flex-col gap-4 max-w-6xl items-center justify-start w-full h-full pt-28'>
-            <div className='flex flex-col md:flex-row items-center justify-center w-full gap-8 md:gap-2 px-6 md:px-10 py-32 bg-main/5 rounded-t-lg'>
+        <div className='flex flex-col max-w-6xl items-center justify-start w-full h-full'>
+            <div className='flex flex-col md:flex-row items-center justify-center w-full gap-8 md:gap-2 px-6 md:px-10 pt-48 pb-28 bg-slate-50 rounded-t-lg'>
                 <div className='flex flex-col gap-8 flex-1 justify-center items-center md:items-start'>
                     <h1 className='text-4xl min-[425px]:text-5xl lg:text-7xl font-bold text-main text-center md:text-start'>Help us find a loving home</h1>
                     <button
@@ -25,7 +25,7 @@ const HomePage = () => {
                 </div>
             </div>
             <NewPets />
-            <div className='flex w-full bg-white py-10 px-6 rounded-lg items-center justify-center'>
+            <div className='flex w-full bg-slate-50 py-10 px-6 items-center justify-center'>
                 <a 
                     href='https://github.com/jadejamig/adopt-a-puppy'
                     target='_blank'
