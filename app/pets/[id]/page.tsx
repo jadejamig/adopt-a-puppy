@@ -7,8 +7,24 @@ import { useRouter } from 'next/navigation';
 import { useGetPetQuery } from '../../../app/store/petApi';
 import { useAppDispatch } from "../../store/hooks";
 import { toast } from 'sonner'
+import AdoptionDialog from "@/app/components/AdoptionDialog";
+import { useState } from "react";
+import { Button } from "@/components/ui/button"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
 
 const PetProfile = ({ params }: { params: { id: string } }) => {
+
+    const [openDialog, setOpenDialog] = useState(false);
     const {data, isError, isLoading} = useGetPetQuery(params.id);
     const router = useRouter();
 
@@ -33,6 +49,7 @@ const PetProfile = ({ params }: { params: { id: string } }) => {
 
     return (
     <div className='flex flex-col gap-4 max-w-6xl items-center justify-start w-full h-full pt-28 pb-6 rounded-b-lg bg-bg px-6'>
+        {openDialog && <AdoptionDialog />}
         {data && 
             <div className='flex justify-start items-center w-full' onClick={() => router.back()}>
                 <ArrowBackIosIcon className='h-4 w-4 text-main cursor-pointer' />
@@ -75,26 +92,71 @@ const PetProfile = ({ params }: { params: { id: string } }) => {
                         <div className='px-2 py-1 bg-emerald-500 text-xs rounded-full text-white'>none</div>
                     </div>
                 </div>
-                <div className='flex text-wrap justify-center text-zinc-600 text-sm items-center w-full text-center p-6 bg-slate-100 rounded-lg'>
+                <div className='flex text-wrap justify-center italic text-zinc-600 text-sm items-center w-full text-center p-6 bg-slate-100 rounded-lg'>
                     {`Hi I'm ${data.pet.name}, I'm a very good ${data.pet.gender === 'Male' ? 'boy' : 'girl'} and I'm ${data.pet.age} 
                     years old. I was born in ${data.pet.location}. I am very friendly and loves to play. I am also great with children and other dogs.`}
-                </div>
-                <button
-                        type='button'
-                        className='px-4 lg:px-8 py-2 text-sm lg:text-base text-main font-semibold outline outline-2 outline-main rounded-full hover:outline-offset-1 hover:outline-main duration-100'
-                    >
-                        <button
-                            onClick={() => {
-                                toast.success(`You and ${data.pet.name} are now best friends!`, {
-                                    description: `Thank you for adopting ${data.pet.name}, take good care of ${data.pet.gender === 'Male' ? 'him' : 'her'}!`,
-                                    duration: 5000,
-                                    icon: <div className='h-10 w-10'>🐶</div>,
-                                })
-                            }}
-                        >
-                           {`Let's be friends 🐾`}
-                        </button>
-                    </button>
+                </div> 
+                    <Dialog>
+                        <DialogTrigger asChild>
+                            <button
+                                // onClick={() => {
+                                //     toast.success(`You and ${data.pet.name} are now best friends!`, {
+                                //         description: `Thank you for adopting ${data.pet.name}, take good care of ${data.pet.gender === 'Male' ? 'him' : 'her'}!`,
+                                //         duration: 5000,
+                                //         icon: <div className='h-10 w-10'>🐶</div>,
+                                //     })
+                                // }}
+                                type='button'
+                                className='px-4 lg:px-8 py-2 text-sm lg:text-base text-main font-semibold outline outline-2 outline-main rounded-full hover:outline-offset-1 hover:outline-main duration-100'
+                            >
+                                {`Let's be friends 🐾`}
+                            </button>
+                        </DialogTrigger>
+                        <DialogContent className="sm:max-w-[425px]">
+                            <DialogHeader>
+                            <DialogTitle>Adopting {data.pet.name}</DialogTitle>
+                            <DialogDescription>
+                                Make changes to your profile here. Click save when you're done.
+                            </DialogDescription>
+                            </DialogHeader>
+                            <div className="grid gap-4 py-4">
+                            <div className="grid grid-cols-4 items-center gap-4">
+                                <Label htmlFor="name" className="text-right">
+                                Name
+                                </Label>
+                                <Input
+                                id="name"
+                                placeholder="John Smith"
+                                className="col-span-3"
+                                />
+                            </div>
+                            <div className="grid grid-cols-4 items-center gap-4">
+                                <Label htmlFor="username" className="text-right">
+                                Address
+                                </Label>
+                                <Input
+                                id="address"
+                                placeholder="123 Main St"
+                                className="col-span-3"
+                                />
+                            </div>
+                            <div className="grid grid-cols-4 items-center gap-4">
+                                <Label htmlFor="username" className="text-right">
+                                Contact No.
+                                </Label>
+                                <Input
+                                id="contact"
+                                placeholder="123-456-7890"
+                                className="col-span-3"
+                                />
+                            </div>
+                            </div>
+                            <DialogFooter>
+                                <Button type="submit" className="flex w-full justify-center items-center">Submit</Button>
+                            </DialogFooter>
+                        </DialogContent>
+                    </Dialog>
+                    
             </div>
         </div>
         )}
