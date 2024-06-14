@@ -1,31 +1,27 @@
 'use client'
 import { AspectRatio } from "@/components/ui/aspect-ratio";
+import { Button } from "@/components/ui/button";
+import {
+    Dialog,
+    DialogClose,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import Image from "next/image";
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useGetPetQuery } from '../../../app/store/petApi';
-import { useAppDispatch } from "../../store/hooks";
-import { toast } from 'sonner'
-import AdoptionDialog from "@/app/components/AdoptionDialog";
 import { useState } from "react";
-import { Button } from "@/components/ui/button"
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-  DialogClose,
-} from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+import { toast } from 'sonner';
+import { useGetPetQuery } from '../../../app/store/petApi';
 
 const PetProfile = ({ params }: { params: { id: string } }) => {
 
-    const [openDialog, setOpenDialog] = useState(false);
     const {data, isError, isLoading} = useGetPetQuery(params.id);
 
     const [name, setName] = useState('');
@@ -61,7 +57,6 @@ const PetProfile = ({ params }: { params: { id: string } }) => {
 
     return (
     <div className='flex flex-col gap-4 max-w-6xl items-center justify-start w-full h-full pt-28 pb-6 rounded-b-lg bg-bg px-6'>
-        {openDialog && <AdoptionDialog />}
         {data && 
             <div className='flex justify-start items-center w-full' onClick={() => router.back()}>
                 <ArrowBackIosIcon className='h-4 w-4 text-main cursor-pointer' />
@@ -176,7 +171,6 @@ const PetProfile = ({ params }: { params: { id: string } }) => {
                                                 icon: <div className='h-10 w-10'>🐶</div>,
                                             })
                                         }
-                                        setOpenDialog(false);
                                     }}
                                     type="button" 
                                     className="flex w-full justify-center items-center"
