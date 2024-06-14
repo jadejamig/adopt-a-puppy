@@ -3,14 +3,24 @@ import { AspectRatio } from "@/components/ui/aspect-ratio"
 import Image from "next/image"
 import { useRouter } from 'next/navigation'
 import { Pet } from '../store/petApi'
+import { useAppSelector, useAppDispatch } from '../store/hooks'
+import { RootState } from '../store/index'
+import { setSelectedPets } from '../store/petSlice'
 
 const Petv2 = (pet : Pet) => {
     const router = useRouter();
+    const dispatch = useAppDispatch();
+
+    const { currentUserType } = useAppSelector((state: RootState) => state.petSlice);
 
     return (
         <div 
             onClick={() => {
-                router.push(`/pets/${pet.id}`)
+                if ( currentUserType === 'admin') {
+                    dispatch(setSelectedPets(pet));
+                } else {
+                    router.push(`/pets/${pet.id}`);
+                }
             }}
             className="w-[400px] min-[1100px]:w-[250px] shadow-sm cursor-pointer"
         >

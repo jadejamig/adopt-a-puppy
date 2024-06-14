@@ -5,6 +5,7 @@ export interface PetState {
     pets: Pet[];
     filteredPets: Pet[];
     selectedPet: Pet | null;
+    selectedPets: Pet[];
     currentOpenedFilter: string;
     breedFilter: string[];
     ageFilter: string[];
@@ -18,6 +19,7 @@ const initialState: PetState = {
     pets: [],
     filteredPets: [],
     selectedPet: null,
+    selectedPets: [],
     currentOpenedFilter: '',
     breedFilter: [],
     ageFilter: [],
@@ -113,6 +115,20 @@ const petSlice = createSlice({
       setCurrentUserType: (state, action: PayloadAction<'admin' | 'user'>) => {
         state.currentUserType = action.payload;
       },
+      setSelectedPets: (state, action: PayloadAction<Pet>) => {
+        // check if the pet is already in the selectedPets array
+        const isPetInSelectedPets = state.selectedPets.some(pet => pet.id === action.payload.id);
+        if (isPetInSelectedPets) {
+          // remove the pet from the selectedPets array
+          state.selectedPets = state.selectedPets.filter(pet => pet.id !== action.payload.id);
+        } else {
+          // add the pet to the selectedPets array
+          state.selectedPets.push(action.payload);
+        }
+      },
+      resetSelectedPets: (state) => {
+        state.selectedPets = [];
+      },
     },
 });
 
@@ -128,6 +144,8 @@ export const {
     setFilteredPets,
     setInputFilter,
     setCurrentUserType,
+    setSelectedPets,
+    resetSelectedPets,
 } = petSlice.actions;
 
 export default petSlice.reducer;

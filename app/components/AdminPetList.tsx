@@ -1,16 +1,18 @@
 'use client'
 
 import DeleteIcon from '@mui/icons-material/Delete';
+import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import { useEffect, useState } from "react";
-import 'react-loading-skeleton/dist/skeleton.css';
 import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { RootState } from '../store/index';
 import { useGetPetsQuery } from '../store/petApi';
-import { resetFilters, setFilteredPets, setInputFilter, setPets } from "../store/petSlice";
+import { resetFilters, setFilteredPets, setInputFilter, setPets, resetSelectedPets } from "../store/petSlice";
 import Filter from "./Filter";
 import Petv2 from "./Petv2";
+import { Pet } from '../store/petApi';
 
 const AdminPetList = () => {
     const [input, setInput] = useState('');
@@ -26,7 +28,7 @@ const AdminPetList = () => {
     const filters = [dummyBreeds, dummyAge, dummySize, dummyGender]
     const dispatch = useAppDispatch();
 
-    const { filteredPets } = useAppSelector((state: RootState) => state.petSlice);
+    const { filteredPets, selectedPets } = useAppSelector((state: RootState) => state.petSlice);
 
     useEffect(() => {
         dispatch(setInputFilter(input));
@@ -43,6 +45,10 @@ const AdminPetList = () => {
     function handleClearFilters() {
         dispatch(resetFilters());
         dispatch(setFilteredPets());
+    }
+
+    function isPetSelected(pet: Pet) {
+        return selectedPets.some(selectedPet => selectedPet.id === pet.id);
     }
     
     return (
@@ -105,26 +111,37 @@ const AdminPetList = () => {
                     </div>
                     <div className='flex gap-2 items-center '>
                         <button
-                            onClick={() => setIsSelecting(!isSelecting)}
+                            onClick={() => {
+                                dispatch(resetSelectedPets())
+                                setIsSelecting(!isSelecting)
+                            }}
                             type='button'
                             className='px-4 lg:px-8 py-2 text-sm lg:text-base bg-white rounded-lg text-zinc-500 font-semibold shadow-sm hover:bg-zinc-50 hover:text-zinc-600'
                         >
                             {isSelecting ? 'Cancel' : 'Select'}
                         </button>
                         <button
-                            onClick={() => setIsSelecting(!isSelecting)}
+                            disabled={selectedPets.length === 0 || !isSelecting}
+                            onClick={() => {
+                                if (selectedPets.length > 0) {
+                                    setIsSelecting(!isSelecting)
+                            }}}
                             type='button'
-                            className='flex items-center justify-center gap-2 px-4 lg:px-8 py-2 text-sm lg:text-base bg-white rounded-lg text-main font-semibold shadow-sm hover:bg-zinc-50'
-                        >
-                            <p>Delete</p>
-                            <DeleteIcon className='h-5 w-5 text-main' />
+                            className={`
+                                flex items-center justify-center gap-2 px-4 lg:px-8 py-2 text-sm lg:text-base
+                                bg-white rounded-lg text-main font-semibold shadow-sm hover:bg-zinc-50 disabled:text-zinc-200 disabled:hover:bg-white`}
+                        >   
+                            {isSelecting && <span className='text-base'>{`(${selectedPets.length})`}</span>}
+                            <p>Remove</p>
                         </button>
                     </div>
                 </div>
                 <div className='grid grid-cols-2 min-[1100px]:grid-cols-3 gap-4 w-full h-full '>
                     {filteredPets?.map((pet: any) => (
-                        <div key={pet.id} className="flex justify-center items-start rounded-lg">
+                        <div key={pet.id} className={`relative flex justify-center items-start rounded-lg ${isPetSelected(pet) && isSelecting ? 'outline outline-2 outline-main' : ''}`}>
                             <Petv2 {...pet}/>
+                            {isSelecting && <RadioButtonCheckedIcon className={`h-4 w-4 absolute bottom-2 right-2 ${isPetSelected(pet) ? 'text-main' : 'text-slate-500'}`} />}
+                            
                         </div>
                     ))}
                 </div>
