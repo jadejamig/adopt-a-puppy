@@ -1,18 +1,16 @@
 'use client'
 
-// import { Skeleton } from "@/components/ui/skeleton";
-import { useEffect, useState } from "react";
 import DeleteIcon from '@mui/icons-material/Delete';
+import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
+import { useEffect, useState } from "react";
+import 'react-loading-skeleton/dist/skeleton.css';
+import Skeleton from 'react-loading-skeleton';
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { RootState } from '../store/index';
 import { useGetPetsQuery } from '../store/petApi';
-import { resetFilters, setFilteredPets, setPets } from "../store/petSlice";
+import { resetFilters, setFilteredPets, setInputFilter, setPets } from "../store/petSlice";
 import Filter from "./Filter";
 import Petv2 from "./Petv2";
-import Skeleton from 'react-loading-skeleton'
-import 'react-loading-skeleton/dist/skeleton.css'
-import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
-import { setInputFilter } from "../store/petSlice";
 
 const PetList = () => {
     const [input, setInput] = useState('');
@@ -50,16 +48,16 @@ const PetList = () => {
     <div className='flex flex-col md:flex-row items-start justify-center w-full h-full px-6 pt-6 pb-10 gap-6'>
         <div className='flex md:flex-[0.3] flex-col gap-4 w-full h-full'>
             <div className="flex justify-between items-center w-full rounded-lg bg-white shadow-md ">
-                <div className="flex justify-center items-center w-full">
+                <div className="flex flex-[0.8] justify-start items-center w-full">
                     <input 
                         value={input}
                         onChange={(e) => setInput(e.target.value)}
                         type="text" 
                         placeholder="Search for a pet" 
-                        className="p-4 rounded-lg focus:outline-none active:outline-none"/>
+                        className="p-4 w-full rounded-lg focus:outline-none active:outline-none"/>
                 </div>
                 
-                <div className="w-full h-full justify-center items-center text-right pr-4">
+                <div className="flex flex-[0.2] h-full justify-end items-center text-right pr-4">
                     <SearchRoundedIcon className='h-7 w-7 text-main cursor-pointer' />
                 </div>
                 

@@ -18,6 +18,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+  DialogClose,
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -26,6 +27,11 @@ const PetProfile = ({ params }: { params: { id: string } }) => {
 
     const [openDialog, setOpenDialog] = useState(false);
     const {data, isError, isLoading} = useGetPetQuery(params.id);
+
+    const [name, setName] = useState('');
+    const [contact, setContact] = useState('');
+    const [address, setAddress] = useState('');
+
     const router = useRouter();
 
     const stats = [
@@ -46,6 +52,12 @@ const PetProfile = ({ params }: { params: { id: string } }) => {
             value: data?.pet.gender, 
         },
     ]
+
+    function resetFields() {
+        setName('');
+        setContact('');
+        setAddress('');
+    }
 
     return (
     <div className='flex flex-col gap-4 max-w-6xl items-center justify-start w-full h-full pt-28 pb-6 rounded-b-lg bg-bg px-6'>
@@ -99,17 +111,10 @@ const PetProfile = ({ params }: { params: { id: string } }) => {
                     <Dialog>
                         <DialogTrigger asChild>
                             <button
-                                // onClick={() => {
-                                //     toast.success(`You and ${data.pet.name} are now best friends!`, {
-                                //         description: `Thank you for adopting ${data.pet.name}, take good care of ${data.pet.gender === 'Male' ? 'him' : 'her'}!`,
-                                //         duration: 5000,
-                                //         icon: <div className='h-10 w-10'>🐶</div>,
-                                //     })
-                                // }}
                                 type='button'
                                 className='px-4 lg:px-8 py-2 text-sm lg:text-base text-main font-semibold outline outline-2 outline-main rounded-full hover:outline-offset-1 hover:outline-main duration-100'
                             >
-                                {`Let's be friends 🐾`}
+                                {`Adopt me 🐾`}
                             </button>
                         </DialogTrigger>
                         <DialogContent className="sm:max-w-[425px]">
@@ -126,8 +131,10 @@ const PetProfile = ({ params }: { params: { id: string } }) => {
                                 </Label>
                                 <Input
                                 id="name"
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}   
                                 placeholder="John Smith"
-                                className="col-span-3"
+                                className="col-span-3 capitalize"
                                 />
                             </div>
                             <div className="grid grid-cols-4 items-center gap-4">
@@ -136,8 +143,10 @@ const PetProfile = ({ params }: { params: { id: string } }) => {
                                 </Label>
                                 <Input
                                 id="address"
+                                value={address}
+                                onChange={(e) => setAddress(e.target.value)}
                                 placeholder="123 Main St"
-                                className="col-span-3"
+                                className="col-span-3 capitalize"
                                 />
                             </div>
                             <div className="grid grid-cols-4 items-center gap-4">
@@ -146,13 +155,36 @@ const PetProfile = ({ params }: { params: { id: string } }) => {
                                 </Label>
                                 <Input
                                 id="contact"
+                                value={contact}
+                                onChange={(e) => setContact(e.target.value)}
                                 placeholder="123-456-7890"
                                 className="col-span-3"
                                 />
                             </div>
                             </div>
                             <DialogFooter>
-                                <Button type="submit" className="flex w-full justify-center items-center">Submit</Button>
+                                <DialogClose asChild>
+                                    <Button 
+                                    onClick={() => {
+                                        if (!name || !contact || !address) {
+                                            toast.error('Please fill in all the fields')
+                                        } else {
+                                            resetFields();
+                                            toast.success(`Such an amazing hooman!`, {
+                                                description: `Thank you for taking interest in adopting ${data.pet.name}. Please keep your lines open, we'll reach out to you soon.`,
+                                                duration: 6000,
+                                                icon: <div className='h-10 w-10'>🐶</div>,
+                                            })
+                                        }
+                                        setOpenDialog(false);
+                                    }}
+                                    type="button" 
+                                    className="flex w-full justify-center items-center"
+                                    disabled={!name || !contact || !address}
+                                    >
+                                        Submit
+                                    </Button>
+                                </DialogClose>
                             </DialogFooter>
                         </DialogContent>
                     </Dialog>
