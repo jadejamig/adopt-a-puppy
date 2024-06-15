@@ -16,6 +16,8 @@ import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { RootState } from '../store/index';
 import { useGetPetQuery, useUpdatePetMutation } from '../store/petApi';
 import { setFilteredPets, setIsSelecting, updatePet } from '../store/petSlice';
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 
 interface UpdatePetProps {
     params: { id: string }
@@ -138,7 +140,14 @@ const UpdatePet = ({ params }: UpdatePetProps) => {
                 <DialogHeader>
                     <DialogTitle>Update doggo details 🐶 {params.id}</DialogTitle>
                 </DialogHeader>
-                <div className="grid gap-4 py-4">
+                {petLoading && <div className="">
+                    {fields.map((field, index) => (
+                        <div key={field}>
+                            <Skeleton height={30} className='mb-2'/>
+                        </div>
+                    ))}
+                </div>}
+                {petData && <div className="grid gap-4 py-4">
                     {fields.map((field, index) => (
                         <div key={field} className="grid grid-cols-4 items-center gap-4">
                             <Label htmlFor="name" className="text-right">
@@ -154,7 +163,7 @@ const UpdatePet = ({ params }: UpdatePetProps) => {
                             />
                         </div>
                     ))}
-                </div>
+                </div>}
                 <DialogFooter>
                     <Button 
                     onClick={handleUpdatePet}
