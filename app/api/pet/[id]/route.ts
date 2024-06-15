@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/prisma/db";
-import { petSchema } from "../route";
+import { petSchema } from "../../../validation";
 
 export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
     const pet = await prisma.pet.findUnique({
