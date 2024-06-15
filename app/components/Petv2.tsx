@@ -28,7 +28,7 @@ const Petv2 = (pet : Pet) => {
                 <Image fill src={pet.image} alt={pet.name} className="rounded-t-lg object-cover" />
             </AspectRatio>
             <div className='flex flex-col justify-center items-center w-full gap-1 text-center py-2 bg-white rounded-b-lg'>  
-                <h1 className='text-sm font-semibold'>{`${pet.name}, ${pet.age} years old`}</h1>
+                <h1 className='text-sm font-semibold'>{`${pet.name}, ${pet.age} ${parseInt(pet.age) > 1 ? 'years' : 'year'} old`}</h1>
                 <h1 className='text-sm text-zinc-500'>{`${pet.breed} (${pet.location})`}</h1>
             </div>
         </div>
