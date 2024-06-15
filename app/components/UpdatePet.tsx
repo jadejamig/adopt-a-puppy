@@ -138,7 +138,7 @@ const UpdatePet = ({ params }: UpdatePetProps) => {
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
-                    <DialogTitle>Update doggo details 🐶 {params.id}</DialogTitle>
+                    <DialogTitle>Update doggo details 🐶</DialogTitle>
                 </DialogHeader>
                 {petLoading && <div className="">
                     {fields.map((field, index) => (
