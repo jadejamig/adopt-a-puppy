@@ -15,6 +15,7 @@ import AddPet from './AddPet';
 import Filter from "./Filter";
 import Petv2 from "./Petv2";
 import UpdatePet from './UpdatePet';
+import { Loader } from 'lucide-react';
 
 const AdminPetList = () => {
     const [input, setInput] = useState('');
@@ -146,7 +147,7 @@ const AdminPetList = () => {
                             {isSelecting ? 'Cancel' : 'Select'}
                         </button>
                         <button
-                            disabled={selectedPets.length === 0 || !isSelecting}
+                            disabled={selectedPets.length === 0 || !isSelecting || deleteLoading}
                             onClick={handleDeletePets}
                             type='button'
                             className={`
@@ -155,6 +156,7 @@ const AdminPetList = () => {
                         >   
                             {isSelecting && <span className='text-base'>{`(${selectedPets.length})`}</span>}
                             <p>Delete</p>
+                            {deleteLoading && <Loader className="animate-spin ml-2 h-5 w-5" />}
                         </button>
                     </div>
                 </div>
