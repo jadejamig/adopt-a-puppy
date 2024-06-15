@@ -8,7 +8,7 @@ interface Data2 {
     pet: Pet
 }
 export interface Pet {
-    id: number
+    id: string
     name: string
     age: string
     ageLabel: string
@@ -24,6 +24,7 @@ export const petApi = createApi({
     baseQuery: fetchBaseQuery({
         baseUrl: '/api/',
     }),
+    refetchOnMountOrArgChange: true,
     endpoints: (builder) => ({
         getPets: builder.query<Data, void>({
             query: () => 'pet',
@@ -31,7 +32,44 @@ export const petApi = createApi({
         getPet: builder.query<Data2, string>({
             query: (id) => `pet/${id}`,
         }),
+        addPet: builder.mutation<Data2, Pet>({
+            query: (pet) => ({
+                url: 'pet',
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: pet,
+            })
+        }),
+        deletePets: builder.mutation<void, string[]>({
+            query: (ids) => ({
+                url: 'pet',
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: ids,
+            })
+        }),
+        deletePet: builder.mutation<void, string>({
+            query: (id) => ({
+                url: `pet/${id}`,
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+        }),
     }),
 });
 
-export const { useGetPetsQuery, useGetPetQuery } = petApi;
+export const { 
+    useGetPetsQuery, 
+    useGetPetQuery, 
+    useLazyGetPetsQuery, 
+    useLazyGetPetQuery, 
+    useAddPetMutation,
+    useDeletePetsMutation,
+    useDeletePetMutation,
+} = petApi;

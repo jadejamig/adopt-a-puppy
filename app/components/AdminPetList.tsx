@@ -8,17 +8,19 @@ import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { RootState } from '../store/index';
-import { useGetPetsQuery } from '../store/petApi';
-import { resetFilters, setFilteredPets, setInputFilter, setPets, resetSelectedPets } from "../store/petSlice";
+import { useGetPetsQuery, useLazyGetPetsQuery, useDeletePetsMutation } from '../store/petApi';
+import { resetFilters, setFilteredPets, setInputFilter, setPets, resetSelectedPets, setIsSelecting, removePets } from "../store/petSlice";
 import Filter from "./Filter";
 import Petv2 from "./Petv2";
 import { Pet } from '../store/petApi';
+import AddPet from './AddPet';
+import { toast } from 'sonner';
 
 const AdminPetList = () => {
     const [input, setInput] = useState('');
-    const [isSelecting, setIsSelecting] = useState(false);
-
-    const {data, isError, isLoading} = useGetPetsQuery();
+    
+    const [getPets, { data, isError, isLoading }] = useLazyGetPetsQuery();
+    const [deletePets, {data: deleteData, isError: deleteError, isLoading: deleteLoading}] = useDeletePetsMutation();
     
     const dummyBreeds = {label: 'Breed', options: ['Golden Retriever', 'Bull Terrier', 'Poodle', 'Border Collie', 'Beagle', 'Chihuahua', 'Labrador', 'Pug', 'German Shepherd']}
     const dummyAge = {label: 'Age', options: ['Puppy', 'Adult', 'Senior']}
@@ -26,13 +28,21 @@ const AdminPetList = () => {
     const dummyGender = {label: 'Gender', options: ['Male', 'Female']}
 
     const filters = [dummyBreeds, dummyAge, dummySize, dummyGender]
+
     const dispatch = useAppDispatch();
 
-    const { filteredPets, selectedPets } = useAppSelector((state: RootState) => state.petSlice);
+    const { filteredPets, selectedPets, isSelecting } = useAppSelector((state: RootState) => state.petSlice);
+
+    useEffect(() => {
+        dispatch(resetSelectedPets());
+        dispatch(setIsSelecting(false));
+        getPets();
+    }, [dispatch])
 
     useEffect(() => {
         dispatch(setInputFilter(input));
         dispatch(setFilteredPets());
+        
     }, [dispatch, input])
 
     useEffect(() => {
@@ -50,6 +60,20 @@ const AdminPetList = () => {
     function isPetSelected(pet: Pet) {
         return selectedPets.some(selectedPet => selectedPet.id === pet.id);
     }
+
+    async function handleDeletePets() {
+        await deletePets(selectedPets.map((pet) => pet.id));
+    }
+
+    useEffect(() => {
+        if (deleteData) {
+            toast.success(`Successfully removed ${selectedPets.length > 1 ? selectedPets.length : '' } ${selectedPets.length === 1 ? selectedPets[0].name : 'pets'}`);
+            dispatch(removePets(selectedPets.map((pet) => pet.id)));
+            dispatch(resetSelectedPets());
+            dispatch(setFilteredPets());
+            dispatch(setIsSelecting(false));
+        }
+    }, [deleteData, dispatch])
     
     return (
     <div className='flex flex-col md:flex-row items-start justify-center w-full h-full px-6 pt-6 pb-10 gap-6'>
@@ -103,43 +127,41 @@ const AdminPetList = () => {
         }
         {isError && <div>Error Fetching Pets</div>}  
         {data && (
-            <div className="flex flex-col gap-2 md:flex-[0.7] w-full h-full ">
-                <div className='flex justify-between items-center w-full'>
-                    <div className='flex gap-2 items-center py-4 pr-4 font-semibold text-zinc-500 text-base sm:text-xl'>
+            <div className="flex flex-col gap-4 md:flex-[0.7] w-full h-full ">
+                <div className='flex flex-col sm:flex-row justify-between items-center w-full'>
+                    <div className='flex gap-2 items-center w-full py-4 pr-4 font-semibold text-zinc-500 text-base sm:text-xl'>
                         <p>Pets for adoption</p>
                         <p className='text-sm sm:text-base'>({filteredPets.length})</p>
                     </div>
-                    <div className='flex gap-2 items-center '>
+                    <div className='flex gap-2 items-start sm:items-center justify-start sm:justify-end w-full'>
+                        <AddPet />
                         <button
                             onClick={() => {
                                 dispatch(resetSelectedPets())
-                                setIsSelecting(!isSelecting)
+                                dispatch(setIsSelecting(!isSelecting))
                             }}
                             type='button'
-                            className='px-4 lg:px-8 py-2 text-sm lg:text-base bg-white rounded-lg text-zinc-500 font-semibold shadow-sm hover:bg-zinc-50 hover:text-zinc-600'
+                            className='px-4 lg:px-8 py-2 text-sm lg:text-base bg-white rounded-lg text-zinc-500 font-semibold shadow-md hover:bg-zinc-50 hover:text-zinc-600'
                         >
                             {isSelecting ? 'Cancel' : 'Select'}
                         </button>
                         <button
                             disabled={selectedPets.length === 0 || !isSelecting}
-                            onClick={() => {
-                                if (selectedPets.length > 0) {
-                                    setIsSelecting(!isSelecting)
-                            }}}
+                            onClick={handleDeletePets}
                             type='button'
                             className={`
                                 flex items-center justify-center gap-2 px-4 lg:px-8 py-2 text-sm lg:text-base
-                                bg-white rounded-lg text-main font-semibold shadow-sm hover:bg-zinc-50 disabled:text-zinc-200 disabled:hover:bg-white`}
+                                bg-white rounded-lg text-main font-semibold shadow-md hover:bg-zinc-50 disabled:text-zinc-200 disabled:hover:bg-white`}
                         >   
                             {isSelecting && <span className='text-base'>{`(${selectedPets.length})`}</span>}
-                            <p>Remove</p>
+                            <p>Delete</p>
                         </button>
                     </div>
                 </div>
                 <div className='grid grid-cols-2 min-[1100px]:grid-cols-3 gap-4 w-full h-full '>
-                    {filteredPets?.map((pet: any) => (
-                        <div key={pet.id} className={`relative flex justify-center items-start rounded-lg ${isPetSelected(pet) && isSelecting ? 'outline outline-2 outline-main' : ''}`}>
-                            <Petv2 {...pet}/>
+                    {filteredPets?.map((pet: Pet) => (
+                        pet.image && <div key={pet.id} className={`relative flex justify-center items-start rounded-lg ${isPetSelected(pet) && isSelecting ? 'outline outline-2 outline-main' : ''}`}>
+                            <Petv2 {...pet} />
                             {isSelecting && <RadioButtonCheckedIcon className={`h-4 w-4 absolute bottom-2 right-2 ${isPetSelected(pet) ? 'text-main' : 'text-slate-500'}`} />}
                             
                         </div>
@@ -149,6 +171,6 @@ const AdminPetList = () => {
         )}
     </div>
     )
-    }
+}
 
 export default AdminPetList

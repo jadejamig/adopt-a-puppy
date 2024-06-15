@@ -1,120 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
+import prisma from "@/prisma/db";
 
 export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
-    const pets = [
-        {
-            id: 1,
-            name: 'Rocky',
-            age: 2,
-            ageLabel: 'Puppy',
-            breed: 'Labrador',
-            gender: 'Male',
-            location: 'New York',
-            image: '/labrador.jpeg',
-            size: 'Medium',
+    const pet = await prisma.pet.findUnique({
+        where: {
+            id: parseInt(params.id),
         },
-        {
-            id: 2,
-            name: 'Max',
-            age: 3,
-            ageLabel: 'Adult',
-            breed: 'Chihuahua',
-            gender: 'Female',
-            location: 'London',
-            image: '/chihuahua.jpeg',
-            size: 'Small',
-        },
-        {
-            id: 3,
-            name: 'Charlie',
-            age: 4,
-            ageLabel: 'Adult',
-            breed: 'German Shepherd',
-            gender: 'Male',
-            location: 'Paris',
-            image: '/germanshep.jpeg',
-            size: 'Large',
-        },
-        {
-            id: 4,
-            name: 'Sam',
-            age: 5,
-            ageLabel: 'Senior',
-            breed: 'Golden Retriever',
-            gender: 'Male',
-            location: 'New York',
-            image: '/goldenretriever.jpeg',
-            size: 'Medium',
-        },
-        {
-            id: 5,
-            name: 'Lucy',
-            age: 6,
-            ageLabel: 'Senior',
-            breed: 'Labrador',
-            gender: 'Female',
-            location: 'London',
-            image: '/labrador2.jpeg',
-            size: 'Medium',
-        },
-        {
-            id: 6,
-            name: 'Jack',
-            age: 2,
-            ageLabel: 'Puppy',
-            breed: 'Beagle',
-            gender: 'Male',
-            location: 'Paris',
-            image: '/beagle.jpeg',
-            size: 'Small',
-        },
-        {
-            id: 7,
-            name: 'Pupa',
-            age: 8,
-            ageLabel: 'Senior',
-            breed: 'Poodle',
-            gender: 'Female',
-            location: 'New York',
-            image: '/poodle.jpeg',
-            size: 'Small',
-        }, 
-        {
-            id: 8,
-            name: 'Rusty',
-            age: 9,
-            ageLabel: 'Senior',
-            breed: 'Pug',
-            gender: 'Male',
-            location: 'Paris',
-            image: '/pug.jpeg',
-            size: 'Small',
-        },
-        {
-            id: 9,
-            name: 'Billy',
-            age: 1,
-            ageLabel: 'Puppy',
-            breed: 'Border Collie',
-            gender: 'Female',
-            location: 'London',
-            image: '/borderCollie.jpeg',
-            size: 'Medium',
-        },
-        {
-            id: 10,
-            name: 'Spooky',
-            age: 6,
-            ageLabel: 'Senior',
-            breed: 'Bull Terrier',
-            gender: 'Male',
-            location: 'Paris',
-            image: '/bullTerrier.jpeg',
-            size: 'Medium',
-        },
-    ]
-    
+    });
+
+    if (!pet) {
+        return NextResponse.error();
+    }
+
     return NextResponse.json({  
-        pet: pets.find((pet) => pet.id.toString() === params.id) ?? null,
+        pet: pet,
     });
 }

@@ -11,12 +11,12 @@ const Petv2 = (pet : Pet) => {
     const router = useRouter();
     const dispatch = useAppDispatch();
 
-    const { currentUserType } = useAppSelector((state: RootState) => state.petSlice);
+    const { currentUserType, isSelecting } = useAppSelector((state: RootState) => state.petSlice);
 
     return (
         <div 
             onClick={() => {
-                if ( currentUserType === 'admin') {
+                if ( currentUserType === 'admin' && isSelecting) {
                     dispatch(setSelectedPets(pet));
                 } else {
                     router.push(`/pets/${pet.id}`);

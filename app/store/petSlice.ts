@@ -13,6 +13,7 @@ export interface PetState {
     genderFilter: string[];
     inputFilter: string;
     currentUserType: 'admin' | 'user';
+    isSelecting: boolean;
 }
 
 const initialState: PetState = {
@@ -27,6 +28,7 @@ const initialState: PetState = {
     genderFilter: [],
     inputFilter: '',
     currentUserType: 'user',
+    isSelecting: false,
 };
 
 export function filterPetsByString(pets: Pet[], search: string) {
@@ -129,6 +131,15 @@ const petSlice = createSlice({
       resetSelectedPets: (state) => {
         state.selectedPets = [];
       },
+      setIsSelecting: (state, action: PayloadAction<boolean>) => {
+        state.isSelecting = action.payload;
+      },
+      addPet: (state, action: PayloadAction<Pet>) => {
+        state.pets = [action.payload, ...state.pets];
+      },
+      removePets: (state, action: PayloadAction<string[]>) => {
+        state.pets = state.pets.filter(pet => !action.payload.includes(pet.id));
+      },
     },
 });
 
@@ -146,6 +157,9 @@ export const {
     setCurrentUserType,
     setSelectedPets,
     resetSelectedPets,
+    setIsSelecting,
+    addPet,
+    removePets,
 } = petSlice.actions;
 
 export default petSlice.reducer;

@@ -16,38 +16,46 @@ import { Label } from "@/components/ui/label";
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import Image from "next/image";
 import { useRouter } from 'next/navigation';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from 'sonner';
 import { useGetPetQuery } from '../../../app/store/petApi';
+import Link from "next/link";
 
 const PetProfile = ({ params }: { params: { id: string } }) => {
 
     const {data, isError, isLoading} = useGetPetQuery(params.id);
 
+    const [stats, setStats] = useState<any[]>([]);
     const [name, setName] = useState('');
     const [contact, setContact] = useState('');
     const [address, setAddress] = useState('');
 
     const router = useRouter();
 
-    const stats = [
-        {
-            label: 'Breed',
-            value: data?.pet.breed, 
-        },
-        {
-            label: 'Age',
-            value: data?.pet.age, 
-        },
-        {
-            label: 'Size',
-            value: data?.pet.size, 
-        },
-        {
-            label: 'Gender',
-            value: data?.pet.gender, 
-        },
-    ]
+    useEffect(() => {
+        
+        if (data) {
+            const stats2 = [
+                {
+                    label: 'Breed',
+                    value: data?.pet.breed, 
+                },
+                {
+                    label: 'Age',
+                    value: data?.pet.age, 
+                },
+                {
+                    label: 'Size',
+                    value: data?.pet.size, 
+                },
+                {
+                    label: 'Gender',
+                    value: data?.pet.gender, 
+                },
+            ]
+            setStats(stats2)
+        }
+    }, [data])
 
     function resetFields() {
         setName('');
@@ -63,6 +71,14 @@ const PetProfile = ({ params }: { params: { id: string } }) => {
                 <p className='text-main text-sm cursor-pointer'>Back to Pets</p>
             </div>
         }
+        {isError && 
+            <div className="flex flex-col text-2xl gap-2 font-semibold items-center justify-center w-full h-full py-28">
+                Error 404 Pet not found
+                <div className="flex gap-2 text-sm items-center justify-center cursor-pointer text-muted-foreground font-normal">
+                    <ArrowBackIosIcon className='h-4 w-4 text-main'/>
+                    <Link href='/pets' className="text-main font-semibold">Go back to pet list</Link>
+                </div>
+            </div>}
         {isLoading && 
             <div className='flex flex-col items-center justify-center w-full h-full pt-28'>
                 <div className='flex justify-center items-center w-full h-full'>
@@ -182,7 +198,6 @@ const PetProfile = ({ params }: { params: { id: string } }) => {
                             </DialogFooter>
                         </DialogContent>
                     </Dialog>
-                    
             </div>
         </div>
         )}
