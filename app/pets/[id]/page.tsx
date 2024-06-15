@@ -64,9 +64,9 @@ const PetProfile = ({ params }: { params: { id: string } }) => {
     }
 
     return (
-    <div className='flex flex-col gap-4 max-w-6xl items-center justify-start w-full h-full pt-28 pb-6 rounded-b-lg bg-bg px-6'>
+    <div className='flex flex-col gap-4 max-w-6xl items-center justify-start w-full h-screen pt-28 rounded-b-lg bg-bg '>
         {data && 
-            <div className='flex justify-start items-center w-full' onClick={() => router.push('/pets')}>   
+            <div className='flex justify-start items-center w-full px-6' onClick={() => router.push('/pets')}>   
                 <ArrowBackIosIcon className='h-4 w-4 text-main cursor-pointer' />
                 <p className='text-main text-sm cursor-pointer font-semibold'>Back to Pets</p>
             </div>
@@ -89,7 +89,7 @@ const PetProfile = ({ params }: { params: { id: string } }) => {
             </div>
         }
         {data && (
-        <div className='flex flex-col md:flex-row w-full gap-4'>
+        <div className='flex flex-col md:flex-row w-full gap-4 px-6 pb-6 bg-bg'>
             <div className="flex-1 flex justify-center items-center p-10 md:p-0 w-full md:w-[400px] shadow-sm">
                 <AspectRatio ratio={1 / 1}>
                     <Image fill src={data.pet.image} alt={data.pet.name} className="rounded-lg object-cover" />
@@ -189,7 +189,7 @@ const PetProfile = ({ params }: { params: { id: string } }) => {
                                         }
                                     }}
                                     type="button" 
-                                    className="flex w-full justify-center items-center"
+                                    className="flex w-full justify-center items-center bg-main hover:bg-main/80"
                                     disabled={!name || !contact || !address}
                                     >
                                         Submit

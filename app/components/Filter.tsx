@@ -1,7 +1,8 @@
 'use client';
+import CheckBoxIcon from '@mui/icons-material/CheckBox';
+import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
 import { useEffect, useState } from 'react';
 import { RootState } from '../store';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
@@ -153,7 +154,7 @@ const Filter = ({ label, options }: FilterProps) => {
           {options.map((option) => (
             <div key={option} className='flex justify-between items-center py-4 px-8 w-full hover:bg-zinc-100 cursor-pointer' onClick={() => handleItemClick(option)}>
               <p className='text-sm'>{option}</p>
-              {isOptionSelected(option) ? <RadioButtonCheckedIcon className='h-4 w-4 text-green-500' /> : <RadioButtonCheckedIcon className='h-4 w-4 text-gray-400' />}
+              {isOptionSelected(option) ? <CheckBoxIcon className='h-4 w-4 text-green-500' /> : <CheckBoxOutlineBlankIcon className='h-4 w-4 text-gray-400' />}
             </div>
           ))}
         </div>
