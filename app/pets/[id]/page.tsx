@@ -66,9 +66,9 @@ const PetProfile = ({ params }: { params: { id: string } }) => {
     return (
     <div className='flex flex-col gap-4 max-w-6xl items-center justify-start w-full h-full pt-28 pb-6 rounded-b-lg bg-bg px-6'>
         {data && 
-            <div className='flex justify-start items-center w-full' onClick={() => router.back()}>
+            <div className='flex justify-start items-center w-full' onClick={() => router.push('/pets')}>   
                 <ArrowBackIosIcon className='h-4 w-4 text-main cursor-pointer' />
-                <p className='text-main text-sm cursor-pointer'>Back to Pets</p>
+                <p className='text-main text-sm cursor-pointer font-semibold'>Back to Pets</p>
             </div>
         }
         {isError && 
