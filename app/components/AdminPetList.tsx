@@ -15,6 +15,7 @@ import Petv2 from "./Petv2";
 import { Pet } from '../store/petApi';
 import AddPet from './AddPet';
 import { toast } from 'sonner';
+import UpdatePet from './UpdatePet';
 
 const AdminPetList = () => {
     const [input, setInput] = useState('');
@@ -163,7 +164,9 @@ const AdminPetList = () => {
                         pet.image && <div key={pet.id} className={`relative flex justify-center items-start rounded-lg ${isPetSelected(pet) && isSelecting ? 'outline outline-2 outline-main' : ''}`}>
                             <Petv2 {...pet} />
                             {isSelecting && <RadioButtonCheckedIcon className={`h-4 w-4 absolute bottom-2 right-2 ${isPetSelected(pet) ? 'text-main' : 'text-slate-500'}`} />}
-                            
+                            {isSelecting && 
+                                <UpdatePet params={{id: pet.id}} />
+                            }
                         </div>
                     ))}
                 </div>

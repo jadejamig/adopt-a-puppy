@@ -61,6 +61,16 @@ export const petApi = createApi({
                 },
             })
         }),
+        updatePet: builder.mutation<Data2, Pet>({
+            query: (pet) => ({
+                url: `pet/${pet.id}`,
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: pet,
+            })
+        }),
     }),
 });
 
@@ -72,4 +82,5 @@ export const {
     useAddPetMutation,
     useDeletePetsMutation,
     useDeletePetMutation,
+    useUpdatePetMutation,
 } = petApi;

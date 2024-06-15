@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Pet } from './petApi';
+import UpdatePet from '../components/UpdatePet';
 
 export interface PetState {
     pets: Pet[];
@@ -88,7 +89,7 @@ const petSlice = createSlice({
         state.filteredPets = initialFilteredPets.filter(pet => {
           var match = false;
           // Check all properties dynamically
-          Object.entries(pet).forEach(([key, value]) => {
+          Object.entries(pet).forEach(([_, value]) => {
               if (match)
                 return
               if (typeof value === 'string' && value.toLowerCase().includes(state.inputFilter.toLowerCase())) {
@@ -140,6 +141,10 @@ const petSlice = createSlice({
       removePets: (state, action: PayloadAction<string[]>) => {
         state.pets = state.pets.filter(pet => !action.payload.includes(pet.id));
       },
+      updatePet: (state, action: PayloadAction<Pet>) => {
+        const petIndex = state.pets.findIndex(pet => pet.id === action.payload.id);
+        state.pets[petIndex] = action.payload;
+      },
     },
 });
 
@@ -160,6 +165,7 @@ export const {
     setIsSelecting,
     addPet,
     removePets,
+    updatePet,
 } = petSlice.actions;
 
 export default petSlice.reducer;
