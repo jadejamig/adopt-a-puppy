@@ -5,13 +5,13 @@ import {
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
-import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
+import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
+import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import Link from 'next/link';
 import React from 'react';
-import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { RootState } from '../store';
+import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { setCurrentUserType } from '../store/petSlice';
 interface NavigationBarProps {
     children?: React.ReactNode

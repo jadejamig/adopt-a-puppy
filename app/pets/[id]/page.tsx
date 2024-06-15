@@ -15,11 +15,11 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from "react";
 import { toast } from 'sonner';
 import { useGetPetQuery } from '../../../app/store/petApi';
-import Link from "next/link";
 
 const PetProfile = ({ params }: { params: { id: string } }) => {
 
@@ -35,7 +35,7 @@ const PetProfile = ({ params }: { params: { id: string } }) => {
     useEffect(() => {
         
         if (data) {
-            const stats2 = [
+            const tempStats = [
                 {
                     label: 'Breed',
                     value: data?.pet.breed, 
@@ -53,7 +53,7 @@ const PetProfile = ({ params }: { params: { id: string } }) => {
                     value: data?.pet.gender, 
                 },
             ]
-            setStats(stats2)
+            setStats(tempStats)
         }
     }, [data])
 

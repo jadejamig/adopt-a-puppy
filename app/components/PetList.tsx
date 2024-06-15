@@ -3,8 +3,8 @@
 import DeleteIcon from '@mui/icons-material/Delete';
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import { useEffect, useState } from "react";
-import 'react-loading-skeleton/dist/skeleton.css';
 import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { RootState } from '../store/index';
 import { useGetPetsQuery } from '../store/petApi';

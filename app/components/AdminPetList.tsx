@@ -6,15 +6,14 @@ import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import { useEffect, useState } from "react";
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
+import { toast } from 'sonner';
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { RootState } from '../store/index';
-import { useGetPetsQuery, useLazyGetPetsQuery, useDeletePetsMutation } from '../store/petApi';
-import { resetFilters, setFilteredPets, setInputFilter, setPets, resetSelectedPets, setIsSelecting, removePets } from "../store/petSlice";
+import { Pet, useDeletePetsMutation, useLazyGetPetsQuery } from '../store/petApi';
+import { removePets, resetFilters, resetSelectedPets, setFilteredPets, setInputFilter, setIsSelecting, setPets } from "../store/petSlice";
+import AddPet from './AddPet';
 import Filter from "./Filter";
 import Petv2 from "./Petv2";
-import { Pet } from '../store/petApi';
-import AddPet from './AddPet';
-import { toast } from 'sonner';
 import UpdatePet from './UpdatePet';
 
 const AdminPetList = () => {

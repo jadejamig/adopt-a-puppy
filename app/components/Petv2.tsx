@@ -2,9 +2,9 @@
 import { AspectRatio } from "@/components/ui/aspect-ratio"
 import Image from "next/image"
 import { useRouter } from 'next/navigation'
-import { Pet } from '../store/petApi'
-import { useAppSelector, useAppDispatch } from '../store/hooks'
+import { useAppDispatch, useAppSelector } from '../store/hooks'
 import { RootState } from '../store/index'
+import { Pet } from '../store/petApi'
 import { setSelectedPets } from '../store/petSlice'
 
 const Petv2 = (pet : Pet) => {

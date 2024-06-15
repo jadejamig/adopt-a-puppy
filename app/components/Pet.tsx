@@ -1,7 +1,5 @@
-import React from 'react'
-import { Pet as PetSchema } from '../store/petApi'
-import Image from 'next/image'
-import { useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation';
+import { Pet as PetSchema } from '../store/petApi';
 
 const Pet = (pet : PetSchema) => {
   const router = useRouter();

@@ -1,21 +1,19 @@
 'use client';
-import React, { use, useEffect, useState } from 'react'
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLess from '@mui/icons-material/ExpandLess';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
-import CloseIcon from '@mui/icons-material/Close';
-import { useAppSelector, useAppDispatch } from '../store/hooks';
-import { 
-  setCurrentOpenedFilter, 
-  setBreedFilter, 
-  setAgeFilter, 
-  setSizeFilter, 
-  setGenderFilter,
-  resetFilters,
-  setFilteredPets,
-} from '../store/petSlice';
+import { useEffect, useState } from 'react';
 import { RootState } from '../store';
-import Close from '@mui/icons-material/Close';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
+import {
+  resetFilters,
+  setAgeFilter,
+  setBreedFilter,
+  setCurrentOpenedFilter,
+  setFilteredPets,
+  setGenderFilter,
+  setSizeFilter,
+} from '../store/petSlice';
 
 interface FilterProps {
     label: string;

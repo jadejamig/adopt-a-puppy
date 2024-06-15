@@ -5,19 +5,17 @@ import {
     DialogFooter,
     DialogHeader,
     DialogTitle,
-    DialogTrigger,
-    DialogClose
+    DialogTrigger
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import AddIcon from '@mui/icons-material/Add';
-import React, { use, useEffect, useState } from 'react';
+import { Loader } from "lucide-react";
+import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { RootState } from '../store/index';
 import { useGetPetQuery, useUpdatePetMutation } from '../store/petApi';
-import { updatePet ,setFilteredPets, setIsSelecting } from '../store/petSlice';
-import { Loader } from "lucide-react";
+import { setFilteredPets, setIsSelecting, updatePet } from '../store/petSlice';
 
 interface UpdatePetProps {
     params: { id: string }

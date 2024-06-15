@@ -1,9 +1,8 @@
 'use client'
-import Link from 'next/link'
-import NewPets from '../components/NewPets'
-import Image from 'next/image'
 import GitHubIcon from '@mui/icons-material/GitHub';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+import Link from 'next/link';
+import NewPets from '../components/NewPets';
 
 const HomePage = () => {
     return (

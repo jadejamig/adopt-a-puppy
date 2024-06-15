@@ -5,19 +5,18 @@ import {
     DialogFooter,
     DialogHeader,
     DialogTitle,
-    DialogTrigger,
-    DialogClose
+    DialogTrigger
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import AddIcon from '@mui/icons-material/Add';
-import { use, useEffect, useState } from 'react';
+import { Loader } from "lucide-react";
+import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { RootState } from '../store/index';
 import { useAddPetMutation } from '../store/petApi';
-import { addPet ,setFilteredPets } from '../store/petSlice';
-import { Loader } from "lucide-react";
+import { addPet, setFilteredPets } from '../store/petSlice';
 
 const AddPet = () => {
     const dispatch = useAppDispatch();
