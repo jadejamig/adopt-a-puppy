@@ -1,5 +1,17 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/prisma/db";
+import { z } from "zod";
+
+export const petSchema = z.object({
+    name: z.string().min(1).max(50),
+    age: z.string().min(1).max(2),
+    ageLabel: z.literal('Puppy').or(z.literal('Adult')).or(z.literal('Senior')),
+    breed: z.string().min(1).max(50),
+    gender: z.literal('Male').or(z.literal('Female')),
+    location: z.string().min(1).max(50),
+    image: z.string(),
+    size: z.literal('Small').or(z.literal('Medium')).or(z.literal('Large')),
+})
 
 export async function GET(req: NextRequest) {
     const pets = await prisma.pet.findMany({orderBy: {createdAt: "desc"}});
@@ -15,6 +27,13 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
     const body = await req.json();
+
+    const validation = petSchema.safeParse(body);
+    
+    if (!validation.success)
+        return NextResponse.error();
+    
+
     const pet = await prisma.pet.create({
         data: {
             name: body.name,

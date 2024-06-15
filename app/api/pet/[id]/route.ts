@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/prisma/db";
+import { petSchema } from "../route";
 
 export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
     const pet = await prisma.pet.findUnique({
@@ -19,6 +20,12 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
 
 export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
     const body = await req.json();
+
+    const validation = petSchema.safeParse(body);
+    
+    if (!validation.success)
+        return NextResponse.error();
+
     const id = parseInt(params.id);
     console.log({id})
     const pet = await prisma.pet.update({

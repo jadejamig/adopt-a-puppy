@@ -1,11 +1,10 @@
 'use client'
-import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "./globals.css";
-import NavigationBar from "./components/NavigationBar";
-import { store } from './store';
 import { Provider } from 'react-redux';
-import { Toaster } from 'sonner'
+import { Toaster } from 'sonner';
+import NavigationBar from "./components/NavigationBar";
+import "./globals.css";
+import { store } from './store';
 
 const inter = Inter({ subsets: ["latin"] });
 
